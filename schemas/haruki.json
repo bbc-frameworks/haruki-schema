@@ -101,7 +101,33 @@
                 },
                 "signatures" : {
                     "type" : "array",
-                    "items" : { "$ref" : "#.defs.signature" }
+                    "items" : {
+                        "type" : "object",
+                        "properties" : {
+                            "name" : {
+                                "type" : "string",
+                                "optional" : true
+                            },
+                            "description" : {
+                                "type" : "string",
+                                "optional" : true
+                            },
+                            "example" : {
+                                "type" : "string",
+                                "optional" : true
+                            },
+                            "parameters" : {
+                                "type" : "array",
+                                "optional" : true,
+                                "items" : { "$ref" : "#.defs.namedValue" }
+                            },
+                            "returns" : {
+                                "type" : [ { "$ref" : "#.defs.value" } ],
+                                "optional" : true
+                            }
+                        },
+                        "additionalProperties" : false
+                    }
                 }
             }
         },
@@ -111,34 +137,6 @@
                 { "$ref" : "#.defs.named" },
                 { "$ref" : "#.defs.callable" }
             ],
-            "additionalProperties" : false
-        },
-        "signature" : {
-            "description" : "An interface to a function (can be overloaded)",
-            "type" : "object",
-            "properties" : {
-                "name" : {
-                    "type" : "string",
-                    "optional" : true
-                },
-                "description" : {
-                    "type" : "string",
-                    "optional" : true
-                },
-                "example" : {
-                    "type" : "string",
-                    "optional" : true
-                },
-                "parameters" : {
-                    "type" : "array",
-                    "optional" : true,
-                    "items" : { "$ref" : "#.defs.namedValue" }
-                },
-                "returns" : {
-                    "type" : [ { "$ref" : "#.defs.value" } ],
-                    "optional" : true
-                }
-            },
             "additionalProperties" : false
         },
         "value" : {
