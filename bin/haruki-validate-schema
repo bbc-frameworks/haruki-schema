@@ -1,0 +1,55 @@
+#!/usr/bin/node
+
+var fs = require('fs');
+var sys = require('sys');
+
+var JSV = require("../ext/JSV/jsv").JSV;
+
+if (process.argv.length < 3 || process.argv[2] === '-h' || process.argv[2] === '--help') {
+   sys.puts('Usage: haruki-schema-validate JSONFILE');
+   process.exit(1);
+}
+
+var schema = JSON.parse(fs.readFileSync(__dirname + '/../schemas/haruki.json', 'utf8'));
+var json = '';
+
+if (process.argv[2] === '-') {
+   var stdin = process.openStdin();
+   stdin.setEncoding('utf8');
+
+   stdin.on('data', function (chunk) {
+       json += chunk;
+   });
+
+   stdin.on('end', function () {
+       validate(json);
+   });
+}
+else {
+     fs.readFile(process.argv[2], 'utf8', function (err, json) {
+         if (err) {
+             throw new Error(err);
+         }
+         validate(json);
+     });
+}
+
+function validate (json) {
+    var result = JSV.validate(JSON.parse(json), schema);
+
+    if (result.errors.length > 0) {
+       sys.puts('\033[1;37;41mFAIL\033[m');
+       for (var i = 0, l = result.errors.length; i < l; i++) {
+            sys.puts(sys.inspect(result.errors[i]));
+       }
+       process.exit(1);
+    }
+    else {
+        sys.puts('\033[1;37;42mPASS\033[m'); 
+    }
+}
+
+
+
+
+
