@@ -5,8 +5,14 @@ var sys = require('sys');
 
 var JSV = require("../ext/JSV/jsv").JSV;
 
+var quiet = false;
+if (process.argv[2] === '-q') {
+   quiet = true;
+   process.argv.splice(2, 1);
+}
+
 if (process.argv.length < 3 || process.argv[2] === '-h' || process.argv[2] === '--help') {
-   sys.puts('Usage: haruki-schema-validate JSONFILE');
+   sys.puts('Usage: haruki-schema-validate [ -q ] JSONFILE');
    process.exit(1);
 }
 
@@ -45,7 +51,9 @@ function validate (json) {
        process.exit(1);
     }
     else {
-        sys.puts('\033[1;37;42mPASS\033[m'); 
+        if (! quiet) {
+            sys.puts('\033[1;37;42mPASS\033[m');
+        }
     }
 }
 

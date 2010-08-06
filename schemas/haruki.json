@@ -27,14 +27,14 @@
                     "optional" : true            
                 },
                 "functions" : {
-                    "type" : "array",
+                    "type" : "object",
                     "optional" : true,
-                    "items" : { "$ref" : "#.defs.namedCallable" }
+                    "additionalProperties" : { "$ref" : "#.defs.namedCallable" }
                 },
                 "properties" : {
-                    "type" : "array",
+                    "type" : "object",
                     "optional" : true,
-                    "items" : { "$ref" : "#.defs.namedValue" }
+                    "additionalProperties" : { "$ref" : "#.defs.namedValue" }
                 }
             }
         },
