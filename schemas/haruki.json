@@ -77,6 +77,7 @@
             "descripion" : "A named namespace (e.g. a namespace in a named hierarchy)",
             "extends" : [
                 { "$ref" : "$.defs.named" },
+                { "$ref" : "$.defs.symbol" },
                 { "$ref" : "$.defs.namespace" }
             ]
         },
