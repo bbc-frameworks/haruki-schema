@@ -196,6 +196,10 @@
                 "optional" :  {
                     "optional" : true,
                     "type" : "boolean"
+                },
+                "nullable" :  {
+                    "optional" : true,
+                    "type" : "boolean"
                 }
             },
             "additionalProperties" : false
