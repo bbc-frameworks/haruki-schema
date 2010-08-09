@@ -1,6 +1,6 @@
 {
     "description" : "A schema describing API docs. Top-level object is the top level anonymous namespace",
-    "extends" : [ { "$ref" : "#.defs.namespace" } ],
+    "extends" : [ { "$ref" : "#.defs.anonymousNamespace" } ],
     "properties" : {
         "typedefs" : {
             "type" : "object",
@@ -42,7 +42,8 @@
             "description" : "A named type.",
             "extends" : [
                 { "$ref" : "$.defs.named" }
-            ]
+            ],
+            "additionalProperties" : false
         },
         "namespace" : {
             "description" : "A namespace (named or anonymous - e.g. the global namespace)",
@@ -54,6 +55,12 @@
                     "optional" : true
                 }
             }
+        },
+        "anonymousNamespace" : {
+            "descripion" : "An anonymous namespace (i.e. a root namespace)",
+            "extends" : [
+                { "$ref" : "$.defs.namespace" }
+            ]
         },
         "namedNamespace" : {
             "descripion" : "A named namespace (e.g. a namespace in a named hierarchy)",
@@ -82,11 +89,11 @@
             "extends" : [
                 { "$ref" : "#.defs.named" },
                 { "$ref" : "#.defs.class" }
-            ]
+            ],
+            "additionalProperties" : false
         },
         "callable" : {
             "description" : "A method, function, subroutine, etc.",
-            "extends" : [ { "$ref" : "#.defs.named" } ],
             "properties" : {
                 "description" : {
                     "type" : "string",
@@ -97,6 +104,14 @@
                     "items" : { "$ref" : "#.defs.signature" }
                 }
             }
+        },
+        "namedCallable" : {
+            "description" : "A named method, function, subroutine, etc.",
+            "extends" : [
+                { "$ref" : "#.defs.named" },
+                { "$ref" : "#.defs.callable" }
+            ],
+            "additionalProperties" : false
         },
         "signature" : {
             "description" : "An interface to a function (can be overloaded)",
@@ -123,7 +138,8 @@
                     "type" : [ { "$ref" : "#.defs.value" } ],
                     "optional" : true
                 }
-            }
+            },
+            "additionalProperties" : false
         },
         "value" : {
             "description" : "A value (e.g. parameter, returned value, etc.)",
@@ -143,6 +159,13 @@
                 "items" : { "$ref" : "#.defs.namedValue" }
             }
         },
+        "anonymousValue" : {
+            "description" : "A value without a name (e.g. return value).",
+            "extends" : [
+                { "$ref" : "#.defs.value" }
+            ],
+            "additionalProperties" : false
+        },
         "namedValue" : {
             "description" : "A named value (e.g. function parameter)",
             "type" : "object",
@@ -150,7 +173,7 @@
                 { "$ref" : "#.defs.named" },
                 { "$ref" : "#.defs.value" }
             ],
-            "additionalProperties" : {
+            "properties" : {
                 "default" : {
                     "optional" : true,
                     "type" : "string" 
@@ -159,7 +182,8 @@
                     "optional" : true,
                     "type" : "boolean"
                 }
-            }
+            },
+            "additionalProperties" : false
         },
         "types" : {
             "description" : "A type or union of possible types (e.g. return types, parameter types, etc.)",
@@ -170,7 +194,10 @@
         },
         "type" : {
             "description" : "A type (e.g. string, boolean, MyClass, options object, etc.)",
-            "type" : "string"
+            "type" : [
+                "string",
+                { "$ref" : "#.defs.object" }
+            ]
         },
         "object" : {
             "description" : "...",
