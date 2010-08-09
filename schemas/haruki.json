@@ -9,13 +9,24 @@
         }
     },
     "defs" : {
+    	"symbol" : {
+			"description" : "A thing that is documented in your code.",
+			"access" : {
+				"type": "string",
+				"enum": ["public", "private", "protected"]
+			},
+			"attachment" : {
+				"type": "string",
+				"enum": ["static", "instance", "inner"]
+			}
+		},
         "named" : {
             "description" : "A thing that is named (e.g. namespace, class, method)",
             "properties" : {
                 "name" : {
                     "type" : "string"
                 }
-            }        
+            }
         }, 
         "container" : {
             "description" : "A container of things that can be contained anywhere (functions, properties, etc.)",
@@ -71,7 +82,10 @@
         },
         "class" : {
             "description" : "A class (named or anonymous)",
-            "extends" : [ { "$ref" : "#.defs.container" } ],
+            "extends" : [
+            	{ "$ref" : "#.defs.container" },
+            	{ "$ref" : "#.defs.symbol" }
+            ],
             "properties" : {
                 "constructor" : {
                     "type" : [ { "$ref" : "#defs.callabale" } ],
@@ -109,6 +123,7 @@
             "description" : "A named method, function, subroutine, etc.",
             "extends" : [
                 { "$ref" : "#.defs.named" },
+                { "$ref" : "#.defs.symbol" },
                 { "$ref" : "#.defs.callable" }
             ],
             "additionalProperties" : false
@@ -171,6 +186,7 @@
             "type" : "object",
             "extends" : [
                 { "$ref" : "#.defs.named" },
+                { "$ref" : "#.defs.symbol" },
                 { "$ref" : "#.defs.value" }
             ],
             "properties" : {
